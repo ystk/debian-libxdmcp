@@ -1,3 +1,531 @@
+commit 60aa228de59270fd1b6d838d80095ac00da53342
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Wed Mar 7 19:46:26 2012 -0800
+
+    libXdmcp 1.1.1
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit a3151f53f0149cd30266474faf8384b93070b8a6
+Author: Matt Dew <marcoz@osource.org>
+Date:   Wed Jan 11 21:44:51 2012 -0700
+
+    informaltable cleanup
+    
+    On certain tables, add top and bottom borders to table
+    header and a bottom border to the table. This matches
+    what those tables in the old pdfs looked like.
+    
+    the <?dbfo keep-together='always'> prevents tables from
+    splitting across pages. Useful for tiny tables.
+    
+    Converting the colwidth to a floating point,
+    IE, 1* -> 1.0* cleans up these build errors:
+    WARNING: table-layout="fixed" and column-width unspecified
+    => falling back to proportional-column-width(1)
+    
+    Signed-off-by: Matt Dew <marcoz@osource.org>
+
+commit e2bc94bbeeae5f0482c2c59556c9a3fb421573d2
+Author: Matt Dew <marcoz@osource.org>
+Date:   Tue Oct 4 22:17:41 2011 -0600
+
+    Cleanup IDs and links in doc
+    
+    1 - fix the capitalization of the ID attributes to match either the
+         <title> or <funcdef> string it goes with.
+    2 - fix any <linkend>'s that were affected by 1.
+    3 - any <function> in the docs that has an actual funcdef,
+    will become an olink.
+    
+    Signed-off-by: Matt Dew <marcoz@osource.org>
+
+commit 896fc25047c6cf372babfaf09ce128754ee00123
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Fri Sep 16 22:16:37 2011 -0700
+
+    Strip trailing whitespace
+    
+    Performed with: find * -type f | xargs perl -i -p -e 's{[ \t]+$}{}'
+    git diff -w & git diff -b show no diffs from this change
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit de9cdb570fa19058e4bdf16e592f0ac7a692b7e2
+Author: Gaetan Nadon <memsize@videotron.ca>
+Date:   Thu Sep 15 20:50:30 2011 -0400
+
+    xdmcp: use appropriate markup for author affiliation
+    
+    Docbook places the organization name above its divisions.
+    
+    Signed-off-by: Gaetan Nadon <memsize@videotron.ca>
+
+commit d3bc4e5d2abeb2202066a50dda8f65dd45005f58
+Author: Gaetan Nadon <memsize@videotron.ca>
+Date:   Mon Sep 12 10:58:16 2011 -0400
+
+    docs: use the &fullrelvers; entity to set X11 release information
+    
+    Signed-off-by: Gaetan Nadon <memsize@videotron.ca>
+
+commit d918365a388486a1bacd982fa0293b345407025a
+Author: Gaetan Nadon <memsize@videotron.ca>
+Date:   Sun Sep 11 19:49:53 2011 -0400
+
+    docs: remove <productnumber> which is not used by default
+    
+    This element is not rendered by default on the title. A template
+    customization is required to display it.
+    X Window System does not have a product number.
+    
+    Signed-off-by: Gaetan Nadon <memsize@videotron.ca>
+
+commit a9b82d7972d225df1a5bf24eb85e109f707113ec
+Author: Gaetan Nadon <memsize@videotron.ca>
+Date:   Thu Sep 8 20:00:00 2011 -0400
+
+    docbook.am: embed css styles inside the HTML HEAD element
+    
+    Rather than referring to the external xorg.css stylesheet, embed the content
+    of the file in the html output produced. This is accomplished by using
+    version 1.10 of xorg-xhtml.xsl.
+    
+    This makes the whole html docs tree much more relocatable.
+    In addition, it eliminates xorg.css as a runtime file which makes
+    xorg-sgml-doctools a build time only package.
+    
+    Signed-off-by: Gaetan Nadon <memsize@videotron.ca>
+
+commit 35ce7db29079636cfa138914ccaa4d951eaff0af
+Author: Gaetan Nadon <memsize@videotron.ca>
+Date:   Wed Sep 7 10:31:04 2011 -0400
+
+    docbook.am: global maintenance update - entities, images and olinking
+    
+    Adding support in libX11 for html chunking caused a reorg of docbook.am
+    as well as the xorg-sgml-doctools masterdb for olinking.
+    The parameter img.src.path is added for pdf images.
+    A searchpath to the root builddir is added for local entities, if present.
+    
+    The docbook.am makefile hides all the details and is identical for
+    all 22 modules having DocBook documentation. It is included by a thin
+    Makefile.am which requires no docbook knowledge.
+    
+    Signed-off-by: Gaetan Nadon <memsize@videotron.ca>
+
+commit e93e80c3bb4c4fcd71d7671d23949232e7cf9581
+Author: Gaetan Nadon <memsize@videotron.ca>
+Date:   Sun Jun 12 18:39:45 2011 -0400
+
+    Install xml versions of specs even if HAVE_XMLTO is false
+    
+    DocBook/XML input source is also a usefull output format that can be viewed
+    with an XML viewer or editor and by some O/S help system.
+    
+    Signed-off-by: Gaetan Nadon <memsize@videotron.ca>
+
+commit 32b2263deae34c9c1d83eea3b37c2a43ca256a5f
+Author: Gaetan Nadon <memsize@videotron.ca>
+Date:   Sun Jun 5 16:27:36 2011 -0400
+
+    Install target dbs alongside generated documents
+    
+    This matches a change in xorg-sgml-docs whereby the masterdb will look for
+    the target dbs into the same location as the generated documents.
+    
+    The target dbs are now installed alongside the generated documents.
+    Previously they are installed in $prefix/sgml/X11/dbs alongside masterdb which
+    has the potential of installing outside the package prefix and cause
+    distcheck to fail when user does not have write permission in this package.
+    
+    Requires XORG_CHECK_SGML_DOCTOOLS(1.8) which was released 2011-06-11
+
+commit 92bca84bf0d6bc7a5d858b9d356928b2856a53d5
+Author: Gaetan Nadon <memsize@videotron.ca>
+Date:   Sun Feb 27 15:06:18 2011 -0500
+
+    Documentation: add Docbook external references support
+    
+    When writing technical documentation, it is often necessary to cross
+    reference to other information. When that other information is not in the
+    current document, additional support is needed, namely <olink>.
+    
+    A new feature with version 1.7 of xorg-sgml-doctools adds references to
+    other documents within or outside this package.
+    
+    This patch adds technical support for this feature but does not change
+    the content of the documentation as seen by the end user.
+    
+    Each book or article must generate a database containing the href
+    of sections that can be referred to from another document. This database
+    is installed in DATAROOTDIR/sgml/X11/dbs. There is a requirement that
+    the value of DATAROOTDIR for xorg-sgml-doctools and for the package
+    documentation is the same. This forms a virtual document tree.
+    
+    This database is consulted by other documents while they are being generated
+    in order to fulfill the missing information for linking.
+    Refer to the xorg-sgml-doctools for further technical information.
+    
+    Co-authored-by: Matt Dew <marcoz@osource.org>
+    
+    Signed-off-by: Gaetan Nadon <memsize@videotron.ca>
+
+commit c702d3c41ae28dcc661fca7d8d8d7ca8ce34ef1f
+Author: Gaetan Nadon <memsize@videotron.ca>
+Date:   Wed Feb 2 11:43:41 2011 -0500
+
+    config: comment, minor upgrade, quote and layout configure.ac
+    
+    Group statements per section as per Autoconf standard layout
+    Quote statements where appropriate.
+    Autoconf recommends not using dnl instead of # for comments
+    
+    Use AC_CONFIG_FILES to replace the deprecated AC_OUTPUT with parameters.
+    Use AC_PROG_LIBTOOL to replace the deprecated AM_PROG_LIBTOOL
+    Remove redundant AC_PROG_MAKE_SET included with AM_INIT_AUTOMAKE
+    Add AC_CONFIG_SRCDIR([Makefile.am]) where missing
+    No functional configuration changes
+    
+    This helps automated maintenance and release activities.
+    Details can be found in http://wiki.x.org/wiki/NewModuleGuidelines
+    
+    Signed-off-by: Gaetan Nadon <memsize@videotron.ca>
+
+commit 1540933e6eaa78a96b035ec5936e63e3cdd335b2
+Author: Gaetan Nadon <memsize@videotron.ca>
+Date:   Fri Jan 28 19:41:37 2011 -0500
+
+    config: replace deprecated AM_CONFIG_HEADER with AC_CONFIG_HEADERS
+    
+    Signed-off-by: Gaetan Nadon <memsize@videotron.ca>
+
+commit 28d1dc68440e07b44a8b97eab9a57bd6ae1557ee
+Author: Julien Cristau <jcristau@debian.org>
+Date:   Mon Dec 20 14:12:39 2010 +0100
+
+    Revert "Export only public API symbols"
+    
+    Some of the unexported symbols are used by xdm.  See
+    http://lists.x.org/pipermail/xorg-devel/2010-December/017246.html
+    
+    This reverts commit b64cac63e0bcdd87bbfd19678552fd7ed1a3b58f.
+    
+    Reported-by: Trevor Woerner <twoerner@gmail.com>
+    Signed-off-by: Julien Cristau <jcristau@debian.org>
+
+commit afcb06588e5cc032372c847657fc7883e8f68c59
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Thu Dec 16 19:16:01 2010 -0800
+
+    spec: Fix up eqn to docbook conversion
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 7d3dd1513b09ea31a85a404473c2f871c507e34f
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Thu Dec 16 17:55:30 2010 -0800
+
+    spec: Fix section titles/nesting
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit b64cac63e0bcdd87bbfd19678552fd7ed1a3b58f
+Author: Cristian Rodríguez <cristian.rodriguez@opensuse.org>
+Date:   Tue Dec 14 15:40:20 2010 -0500
+
+    Export only public API symbols
+    
+    Reviewed-by: Adam Jackson <ajax@redhat.com>
+    Signed-off-by: Cristian Rodríguez <cristian.rodriguez@opensuse.org>
+
+commit fb32c2fc1548cc13bed1643b950130629a9d8197
+Author: Gaetan Nadon <memsize@videotron.ca>
+Date:   Tue Nov 9 13:04:46 2010 -0500
+
+    config: HTML file generation: use the installed copy of xorg.css
+    
+    Currenlty the xorg.css file is copied in each location
+    where a DocBook/XML file resides. This produces about
+    70 copies in the $(docdir) install tree.
+    
+    Signed-off-by: Gaetan Nadon <memsize@videotron.ca>
+
+commit 7db29ff43eb3cdcbfe77c35ecc78c7ca3ddba595
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Fri Oct 29 15:13:16 2010 -0700
+
+    libXdmcp 1.1.0
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit fef4451fa3c55dcf81e7eee7ca001c57e301a150
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Wed Oct 27 23:01:49 2010 -0700
+
+    Remove AC_PROG_CC & AC_PROG_INSTALL that XORG_DEFAULT_OPTIONS already call
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 21c9f93bb5200dda0bfdd05b928c19829f23d646
+Author: Gaetan Nadon <memsize@videotron.ca>
+Date:   Tue Aug 3 15:28:51 2010 -0400
+
+    config: require xorg-macros minimum of 1.10 for XORG_CHECK_SGML_DOCTOOLS
+    
+    Signed-off-by: Gaetan Nadon <memsize@videotron.ca>
+
+commit adaf75c9aac6ca77b26379cc5e451728d9f1a78b
+Author: Matt Dew <matt@osource.org>
+Date:   Sun Aug 1 14:23:18 2010 -0400
+
+    specs: replace troff source with docbook-xml source
+    
+    Signed-off-by: Gaetan Nadon <memsize@videotron.ca>
+
+commit 39993ef6f48cb3f9ee0cb0cd4dcef0d643cda698
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Fri May 7 19:21:42 2010 -0700
+
+    Replace comments pointing to non-public X Consortium defect reports
+    
+    Restored the original comments suggested by Paul Shearer of Sequent in the
+    patches he submitted with these fixes in the original X Consortium defect
+    reports from 1995, since modern readers can't refer to the referenced
+    bug reports in that old/closed bug db.
+    
+    7328 Xdmcp: memory leak in XdmcpReadARRAYofARRAY8 when read fails
+    7329 Xdmcp: XdmcpReadARRAY and XdmcpDisposeARRAY routines may free twice
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit ea0e0d0e3d45eb5e71542af835194514a6f8801c
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Fri May 7 19:03:54 2010 -0700
+
+    Fix order of CPPFLAGS passed to lint/compile steps
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 996d92d2710f9dc740351f4d9cbe14af64569689
+Author: Mikhail Gusarov <dottedmag@dottedmag.net>
+Date:   Fri May 7 20:22:20 2010 +0000
+
+    Get rid of Xalloc/Xrealloc/Xfree from X server or Xlib
+    
+    alloc/realloc/free calls are encapsulated in libXdmcp, so
+    there is no need to wrap allocation functions even under Windows
+    
+    Signed-off-by: Mikhail Gusarov <dottedmag@dottedmag.net>
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 2a51e57425e1b4062a459a19b1860c9c9721d9ea
+Author: Mikhail Gusarov <dottedmag@dottedmag.net>
+Date:   Fri May 7 20:06:52 2010 +0000
+
+    Nuke RCS tags
+    
+    Signed-off-by: Mikhail Gusarov <dottedmag@dottedmag.net>
+    Reviewed-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 710d4a4298772cf06c22cce336622b33487b8b44
+Author: Mikhail Gusarov <dottedmag@dottedmag.net>
+Date:   Fri May 7 20:03:46 2010 +0000
+
+    Reshuffle functions to decrease amount of boilerplate
+    
+    It it a PitA to do anything with lot of nearly idenical code scattered
+    around in 30 files each containing 5-line function
+    
+    Signed-off-by: Mikhail Gusarov <dottedmag@dottedmag.net>
+    Reviewed-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+
+commit 1b22d07fc1268e7c5343cccd562ab69a101baf91
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Thu May 6 15:38:01 2010 -0700
+
+    Use stdint.h instead of limits.h for UINT*_MAX definitions
+    
+    While Solaris allows either one, C99 only requires them in stdint.h
+    and some platforms don't include them via limits.h
+    
+    Corrects tinderbox reported errors on Fedora 11 build machine:
+    
+    http://tinderbox.x.org/builds/2010-05-06-0019/logs/libXdmcp/#build
+    
+    AA32.c: In function 'XdmcpAllocARRAY32':
+    AA32.c:47: error: 'UINT8_MAX' undeclared (first use in this function)
+    
+    AA8.c: In function 'XdmcpAllocARRAY8':
+    AA8.c:47: error: 'UINT16_MAX' undeclared (first use in this function)
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    
+    Compiles clean on GNU/Linux AMD64
+    Tested-by: Gaetan Nadon <memsize@videotron.ca>
+
+commit 30e388a8284ed100893983178acb6b4e3ff2b815
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Thu Apr 29 20:19:38 2010 -0700
+
+    Deal with lint warnings about implicit narrowing conversions
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Reviewed-by: Matt Turner <mattst88@gmail.com>
+
+commit 110078a137915f486a13e0445ee9ba5e1558c081
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Thu Apr 29 19:57:46 2010 -0700
+
+    unifdef Lynx
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Reviewed-by: Matt Turner <mattst88@gmail.com>
+
+commit 5ea80e308026357aeee8b56230e85cb4d2e87631
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Thu Apr 29 19:56:37 2010 -0700
+
+    XdmcpARRAY8Equal: Use memcmp instead of rolling our own
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Reviewed-by: Matt Turner <mattst88@gmail.com>
+
+commit 27b1aa82a3f0db7d20a303ba093d1ec52de39bff
+Author: Alan Coopersmith <alan.coopersmith@oracle.com>
+Date:   Thu Apr 29 19:51:25 2010 -0700
+
+    Constify function prototypes
+    
+    Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+    Reviewed-by: Matt Turner <mattst88@gmail.com>
+
+commit 482b19329fac5e311fe0423e58f3e8c573b66114
+Author: Gaetan Nadon <memsize@videotron.ca>
+Date:   Mon Mar 29 16:50:34 2010 -0400
+
+    config: update AC_PREREQ statement to 2.60
+    
+    Unrelated to the previous patches, the new value simply reflects
+    the reality that the minimum level for autoconf to configure
+    all x.org modules is 2.60 dated June 2006.
+    
+    ftp://ftp.gnu.org/gnu/autoconf/autoconf-2.60.tar.gz
+    
+    Signed-off-by: Gaetan Nadon <memsize@videotron.ca>
+
+commit 1c220fc14083ed8e1214329138d6ca548dad6dcc
+Author: Gaetan Nadon <memsize@videotron.ca>
+Date:   Mon Mar 29 14:53:48 2010 -0400
+
+    config: remove the pkgconfig pc.in file from EXTRA_DIST
+    
+    Automake always includes it in the tarball.
+    
+    Signed-off-by: Gaetan Nadon <memsize@videotron.ca>
+
+commit 7367f2efae9561d87cabaa6e1740355b0aeda86f
+Author: Gaetan Nadon <memsize@videotron.ca>
+Date:   Sat Mar 20 11:22:59 2010 -0400
+
+    make: remove unrequired -I${top_builddir}/include
+    
+    The -I${top_srcdir}/include in AM_CFLAGS is the correct one.
+    
+    Signed-off-by: Gaetan Nadon <memsize@videotron.ca>
+
+commit 2110b60cf122a624011ade8883af07b88bb2c2bb
+Author: Gaetan Nadon <memsize@videotron.ca>
+Date:   Tue Feb 16 10:37:21 2010 -0500
+
+    config: move CWARNFLAGS from configure.ac to Makefile.am
+    
+    Compiler warning flags should be explicitly set in the makefile
+    rather than being merged with other packages compiler flags.
+    
+    Signed-off-by: Gaetan Nadon <memsize@videotron.ca>
+
+commit 7c1d4d862240a0b01eefbccf6b85e7a365e60ada
+Author: Gaetan Nadon <memsize@videotron.ca>
+Date:   Fri Nov 27 20:56:04 2009 -0500
+
+    Makefile.am: add ChangeLog and INSTALL on MAINTAINERCLEANFILES
+    
+    Now that the INSTALL file is generated.
+    Allows running make maintainer-clean.
+
+commit 3c0e64988dad80afe5633c62c29ab3d1c54d2d23
+Author: Gaetan Nadon <memsize@videotron.ca>
+Date:   Wed Oct 28 14:09:10 2009 -0400
+
+    INSTALL, NEWS, README or AUTHORS files are missing/incorrect #24206
+    
+    Add missing INSTALL file. Use standard GNU file on building tarball
+    README may have been updated
+    Remove AUTHORS file as it is empty and no content available yet.
+    Remove NEWS file as it is empty and no content available yet.
+
+commit a4a69387d7d0783326fbbd2b7b202498325d5f96
+Author: Gaetan Nadon <memsize@videotron.ca>
+Date:   Tue Oct 27 15:07:25 2009 -0400
+
+    Deploy the new XORG_DEFAULT_OPTIONS #24242
+    
+    This macro aggregate a number of existing macros that sets commmon
+    X.Org components configuration options. It shields the configuration file from
+    future changes.
+
+commit 748ea77263a40080e665adc742a7a9791b4293c0
+Author: Gaetan Nadon <memsize@videotron.ca>
+Date:   Mon Oct 26 22:08:43 2009 -0400
+
+    Makefile.am: ChangeLog not required: EXTRA_DIST or *CLEANFILES #24432
+    
+    ChangeLog filename is known to Automake and requires no further
+    coding in the makefile.
+
+commit 1ac333abaae4940467d2101d1080be9e46d90c78
+Author: Gaetan Nadon <memsize@videotron.ca>
+Date:   Thu Oct 22 12:34:19 2009 -0400
+
+    .gitignore: use common defaults with custom section # 24239
+    
+    Using common defaults will reduce errors and maintenance.
+    Only the very small or inexistent custom section need periodic maintenance
+    when the structure of the component changes. Do not edit defaults.
+
+commit c362c31e583215855458bc5cbb9ed1020157b1ad
+Author: Gaetan Nadon <memsize@videotron.ca>
+Date:   Sun Sep 27 16:28:37 2009 -0400
+
+    Makefile.am: do not include autogen.sh in distribution #24183
+    
+    This is a private build script that should not be distributed
+
+commit d0f3336872147e925666aaf73b6c0c11aedc63c3
+Author: Jeremy Huddleston <jeremyhu@freedesktop.org>
+Date:   Wed Oct 21 12:47:24 2009 -0700
+
+    This is not a GNU project, so declare it foreign.
+    
+    On Wed, 2009-10-21 at 13:36 +1000, Peter Hutterer wrote:
+    > On Tue, Oct 20, 2009 at 08:23:55PM -0700, Jeremy Huddleston wrote:
+    > > I noticed an INSTALL file in xlsclients and libXvMC today, and it
+    > > was quite annoying to work around since 'autoreconf -fvi' replaces
+    > > it and git wants to commit it.  Should these files even be in git?
+    > > Can I nuke them for the betterment of humanity and since they get
+    > > created by autoreconf anyways?
+    >
+    > See https://bugs.freedesktop.org/show_bug.cgi?id=24206
+    
+    As an interim measure, replace AM_INIT_AUTOMAKE([dist-bzip2]) with
+    AM_INIT_AUTOMAKE([foreign dist-bzip2]). This will prevent the generation
+    of the INSTALL file. It is also part of the 24206 solution.
+    
+    Signed-off-by: Jeremy Huddleston <jeremyhu@freedesktop.org>
+
 commit 3a7e0bb1cec5975e9fcbddc6569e7ac1aea550e5
 Author: Peter Hutterer <peter.hutterer@who-t.net>
 Date:   Fri Aug 28 15:32:31 2009 +1000
