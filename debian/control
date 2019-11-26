@@ -10,6 +10,7 @@ Build-Depends:
  automake,
  libtool,
  xutils-dev (>= 1:7.5+4),
+ libbsd-dev,
 # doc:
  xmlto, xorg-sgml-doctools (>= 1:1.5), w3m,
 Standards-Version: 3.9.2
