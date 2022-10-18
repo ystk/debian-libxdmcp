@@ -1,3 +1,10 @@
+libxdmcp (1:1.1.1-1+deb8u2) jessie-security; urgency=medium
+
+  * Really apply patch for CVE-2017-2625 by build-depending on quilt
+    and calling dh_quilt_patch/dh_quilt_unpatch in debian/rules.
+
+ -- Emilio Pozuelo Monfort <pochu@debian.org>  Tue, 18 Oct 2022 16:46:52 +0200
+
 libxdmcp (1:1.1.1-1+deb8u1) jessie-security; urgency=low
 
   * Non-maintainer upload by the LTS Team. 

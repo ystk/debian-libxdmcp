@@ -41,6 +41,7 @@ build-arch: build-stamp
 
 build-stamp:
 	dh_testdir
+	dh_quilt_patch
 	autoreconf -vfi
 	mkdir -p build
 	cd build && \
@@ -54,6 +55,7 @@ build-stamp:
 
 clean:
 	dh_testdir
+	dh_quilt_unpatch
 	rm -f build-stamp
 
 	rm -f config.cache config.log config.status
