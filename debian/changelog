@@ -1,3 +1,9 @@
+libxdmcp (1:1.1.1-1+deb8u3) jessie-security; urgency=medium
+
+  * Install html documentation, the txt one fails to build on armel.
+
+ -- Emilio Pozuelo Monfort <pochu@debian.org>  Wed, 19 Oct 2022 09:07:27 +0200
+
 libxdmcp (1:1.1.1-1+deb8u2) jessie-security; urgency=medium
 
   * Really apply patch for CVE-2017-2625 by build-depending on quilt
